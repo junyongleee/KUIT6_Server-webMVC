@@ -11,31 +11,54 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-@WebServlet("/user/login")
-public class LoginController extends HttpServlet {
+public class LoginController implements Controller {
     private static final String USER_SESSION_KEY = "user";
+    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("/user/login.jsp");
-        rd.forward(req, resp);
-    }
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!"POST".equalsIgnoreCase(req.getMethod())) {
+            return "/user/login.jsp";
+        }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getParameter("userId");
         String password = req.getParameter("password");
 
-        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
         User user = userRepository.findUserById(userId);
         if (user != null && user.matchPassword(password)) {
             HttpSession session = req.getSession();
             session.setAttribute(USER_SESSION_KEY, user);
-            resp.sendRedirect(req.getContextPath() + "/");
-            return;
+            return "redirect:/";
         }
 
-        resp.sendRedirect(req.getContextPath() + "/user/loginFailed.jsp");
+        return "redirect:/user/loginFailed";
     }
 }
+
+//@WebServlet("/user/login")
+//public class LoginController extends HttpServlet {
+//    private static final String USER_SESSION_KEY = "user";
+//
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        RequestDispatcher rd = req.getRequestDispatcher("/user/login.jsp");
+//        rd.forward(req, resp);
+//    }
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String userId = req.getParameter("userId");
+//        String password = req.getParameter("password");
+//
+//        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
+//        User user = userRepository.findUserById(userId);
+//        if (user != null && user.matchPassword(password)) {
+//            HttpSession session = req.getSession();
+//            session.setAttribute(USER_SESSION_KEY, user);
+//            resp.sendRedirect(req.getContextPath() + "/");
+//            return;
+//        }
+//
+//        resp.sendRedirect(req.getContextPath() + "/user/loginFailed.jsp");
+//    }
+//}

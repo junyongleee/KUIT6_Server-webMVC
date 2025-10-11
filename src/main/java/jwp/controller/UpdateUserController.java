@@ -11,23 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/user/update")
-public class UpdateUserController extends HttpServlet {
+public class UpdateUserController implements Controller {
     private static final String USER_SESSION_KEY = "user";
+    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!"POST".equalsIgnoreCase(req.getMethod())) {
+            return "redirect:/";
+        }
+
         HttpSession session = req.getSession(false);
         if (session == null) {
-            resp.sendRedirect(req.getContextPath() + "/");
-            return;
+            return "redirect:/";
         }
 
         User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
         String userId = req.getParameter("userId");
         if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-            resp.sendRedirect(req.getContextPath() + "/");
-            return;
+            return "redirect:/";
         }
 
         String password = req.getParameter("password");
@@ -35,10 +37,41 @@ public class UpdateUserController extends HttpServlet {
         String email = req.getParameter("email");
 
         User updateUser = new User(userId, password, name, email);
-        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
         userRepository.changeUserInfo(updateUser);
 
         session.setAttribute(USER_SESSION_KEY, updateUser);
-        resp.sendRedirect(req.getContextPath() + "/user/list");
+        return "redirect:/user/list";
     }
 }
+
+//@WebServlet("/user/update")
+//public class UpdateUserController extends HttpServlet {
+//    private static final String USER_SESSION_KEY = "user";
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        HttpSession session = req.getSession(false);
+//        if (session == null) {
+//            resp.sendRedirect(req.getContextPath() + "/");
+//            return;
+//        }
+//
+//        User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
+//        String userId = req.getParameter("userId");
+//        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
+//            resp.sendRedirect(req.getContextPath() + "/");
+//            return;
+//        }
+//
+//        String password = req.getParameter("password");
+//        String name = req.getParameter("name");
+//        String email = req.getParameter("email");
+//
+//        User updateUser = new User(userId, password, name, email);
+//        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
+//        userRepository.changeUserInfo(updateUser);
+//
+//        session.setAttribute(USER_SESSION_KEY, updateUser);
+//        resp.sendRedirect(req.getContextPath() + "/user/list");
+//    }
+//}
