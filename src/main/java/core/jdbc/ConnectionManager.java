@@ -24,7 +24,7 @@ public class ConnectionManager {
         return ds;
     }
 
-    public static Connection getConnection() {
+    public static Connection getConnection() { // DB의 커넥션 풀 중 커넥션 하나를 받아올 수 있음
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {
