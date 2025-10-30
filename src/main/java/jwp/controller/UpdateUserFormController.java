@@ -1,6 +1,7 @@
 package jwp.controller;
 
 import core.db.MemoryUserRepository;
+import jwp.dao.UserDao;
 import jwp.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -11,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
-@WebServlet("/user/updateForm")
+//@WebServlet("/user/updateForm")
 public class UpdateUserFormController implements Controller {
     private static final String USER_SESSION_KEY = "user";
-    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
-
+//    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
+    private final UserDao userDao = new UserDao();
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!"GET".equalsIgnoreCase(req.getMethod())) {
@@ -34,7 +36,12 @@ public class UpdateUserFormController implements Controller {
             return "redirect:/";
         }
 
-        User user = userRepository.findUserById(userId);
+        User user = null;
+        try {
+            user = userDao.findByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (user == null) {
             return "redirect:/";
         }

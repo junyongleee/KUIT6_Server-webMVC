@@ -1,6 +1,7 @@
 package jwp.controller;
 
 import core.db.MemoryUserRepository;
+import jwp.dao.UserDao;
 import jwp.model.User;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 
-@WebServlet("/user/list")
+//@WebServlet("/user/list")
 public class ListUserController implements Controller {
     private static final String USER_SESSION_KEY = "user";
-    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
+//    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
+    private final UserDao userDao = new UserDao();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +36,12 @@ public class ListUserController implements Controller {
             return "redirect:/user/login";
         }
 
-        Collection<User> users = userRepository.findAll();
+        Collection<User> users = null;
+        try {
+            users = userDao.findAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         req.setAttribute("users", users);
         return "/user/list.jsp";
     }

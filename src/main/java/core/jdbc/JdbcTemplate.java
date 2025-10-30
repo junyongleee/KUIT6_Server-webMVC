@@ -1,6 +1,5 @@
 package core.jdbc;
 
-import jwp.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,15 +35,16 @@ public class JdbcTemplate<T> {
     }
 
     public T queryForObject(String sql, PreparedStatementSetter pstmtSetter, RowMapper<T> rowMapper) throws SQLException {
-        ResultSet rs = null;
         T object = null;
 
         try(Connection conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmtSetter.setParameters(pstmt);
 
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                object = rowMapper.mapRow(rs);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    object = rowMapper.mapRow(rs);
+                }
             }
         }
 

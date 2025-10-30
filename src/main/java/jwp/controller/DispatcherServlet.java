@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
@@ -25,7 +26,12 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String viewName = resolveViewName(req, resp);
+        String viewName = null;
+        try {
+            viewName = resolveViewName(req, resp);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (viewName == null) {
             return;
         }
@@ -40,7 +46,7 @@ public class DispatcherServlet extends HttpServlet {
         rd.forward(req, resp);
     }
 
-    private String resolveViewName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String resolveViewName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         String requestUri = req.getRequestURI();
         String contextPath = req.getContextPath();
         String path = requestUri.substring(contextPath.length());
