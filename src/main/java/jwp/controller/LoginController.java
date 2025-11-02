@@ -8,6 +8,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import jwp.support.session.UserSessionUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,8 @@ public class LoginController implements Controller {
         }
         if (user != null && user.matchPassword(password)) {
             HttpSession session = req.getSession();
-            session.setAttribute(USER_SESSION_KEY, user);
+//            session.setAttribute(USER_SESSION_KEY, user);
+            session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
             return "redirect:/";
         }
 

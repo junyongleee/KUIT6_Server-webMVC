@@ -17,11 +17,25 @@ import java.util.List;
 
 
 public class HomeController implements Controller {
+//	@Override
+//	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		List<Question> questions = Collections.emptyList();
+//		QuestionDao questionDao = new QuestionDao();
+//
+//		try {
+//			questions = questionDao.findAll();
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
+//		req.setAttribute("questions", questions);
+//		return "/home.jsp";
+//	}
+
+	private final QuestionDao questionDao = new QuestionDao();
+
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Question> questions = Collections.emptyList();
-		QuestionDao questionDao = new QuestionDao();
-
 		try {
 			questions = questionDao.findAll();
 		} catch (SQLException e) {
