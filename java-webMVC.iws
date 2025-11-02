@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8532e5e-d8f5-4e8c-a002-746704734daf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/ShowQuestionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-webMVC.iws" beforeDir="false" afterPath="$PROJECT_DIR$/java-webMVC.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/RequestMapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/RequestMapping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/dao/QuestionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/dao/QuestionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webapp/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/include/navigation.jspf" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/include/navigation.jspf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/qna/form.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/qna/form.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +292,7 @@
       <workItem from="1761730317572" duration="1356000" />
       <workItem from="1761813440661" duration="22235000" />
       <workItem from="1761983761744" duration="329000" />
-      <workItem from="1762087694007" duration="4483000" />
+      <workItem from="1762087694007" duration="6688000" />
     </task>
     <servers />
   </component>
