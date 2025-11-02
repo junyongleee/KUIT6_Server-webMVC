@@ -59,8 +59,12 @@
                 <li>
                     <div class="wrap">
                         <div class="main">
+                            <c:url var="showQuestionUrl" value="/qna/show">
+                                <c:param name="questionId" value="${question.questionId}" />
+                            </c:url>
                             <strong class="subject">
-                                <a href="qna/show?questionId=${question.questionId}">${question.title}</a>
+<%--                            <a href="qna/show?questionId=${question.questionId}">${question.title}</a>--%>
+                                <a href="${showQuestionUrl}">${question.title}</a>
                             </strong>
                             <div class="auth-info">
                                 <i class="icon-add-comment"></i>
@@ -82,8 +86,6 @@
                     </div>
                 </li>
             </c:forEach>
-            <%--                </div>--%>
-            <%--            </li>--%>
         </ul>
         <div class="row">
             <div class="col-md-5"></div>
@@ -103,7 +105,8 @@
                 </ul>
             </div>
             <div class="col-md-2 qna-write">
-                <a href="./qna/form.html" class="btn btn-primary pull-right" role="button">질문하기</a>
+<%--                <a href="./qna/form.html" class="btn btn-primary pull-right" role="button">질문하기</a>--%>
+                <a href="<c:url value='/qna/form'/>" class="btn btn-primary pull-right" role="button">질문하기</a>
             </div>
         </div>
     </div>

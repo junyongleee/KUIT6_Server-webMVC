@@ -14,7 +14,7 @@ public class ShowQuestionController implements Controller {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
         String questionIdParam = req.getParameter("questionId");
-        if (questionIdParam == null || questionIdParam.isBlank()) {
+        if (questionIdParam == null || questionIdParam.trim().isEmpty()) {
             resp.sendRedirect("/");
             return null;
         }
