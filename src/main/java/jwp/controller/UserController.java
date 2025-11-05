@@ -26,78 +26,82 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String createUser(@ModelAttribute User user) {
-        userService.createUser(user);
+    public String createUser(@RequestParam String userId,
+                             @RequestParam String password,
+                             @RequestParam String name,
+                             @RequestParam String email) {
+        userService.createUser(new User(userId, password, name, email));
         return "redirect:/user/list";
     }
 
     @GetMapping("/list")
-    public String listUsers(HttpServletRequest req, Model model) {
-        if (!"GET".equalsIgnoreCase(req.getMethod())) {
-            return "redirect:/user/login";
+    public String listUsers(HttpSession session, Model model) {
+        if (!UserSessionUtils.isLogined(session)) {
+            return "redirect:/user/loginForm";
         }
-
-        HttpSession session = req.getSession(false);
-        if (session == null) {
-            return "redirect:/user/login";
-        }
-
         model.addAttribute("users", userService.findAllUsers());
-        return "user/list.jsp";
+        return "user/list";
     }
-//
-//    @GetMapping("/updateForm")
-//    public String showUpdateForm(@RequestParam String userId, HttpSession session, Model model) {
-//        User sessionUser = UserSessionUtils.getUserFromSession(session);
-//        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-//            return "redirect:/";
-//        }
-//        return userService.findByUserId(userId)
-//                .map(user -> {
-//                    model.addAttribute("user", user);
-//                    return "user/updateForm";
-//                })
-//                .orElse("redirect:/");
-//    }
-//
-//    @PostMapping("/update")
-//    public String updateUser(@ModelAttribute User updateUser, HttpSession session) {
-//        User sessionUser = UserSessionUtils.getUserFromSession(session);
-//        if (sessionUser == null || !sessionUser.isSameUser(updateUser.getUserId())) {
-//            return "redirect:/";
-//        }
-//        User persistedUser = userService.updateUser(updateUser);
-//        session.setAttribute(UserSessionUtils.USER_SESSION_KEY, persistedUser);
-//        return "redirect:/user/list";
-//    }
-//
-//    @GetMapping("/loginForm")
-//    public String loginForm() {
-//        return "user/login";
-//    }
-//
-//    @PostMapping("/login")
-//    public String login(@RequestParam String userId,
-//                        @RequestParam String password,
-//                        HttpSession session) {
-//        return userService.authenticate(userId, password)
-//                .map(user -> {
-//                    session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
-//                    return "redirect:/";
-//                })
-//                .orElse("redirect:/user/loginFailed");
-//    }
-//
-//    @GetMapping("/loginFailed")
-//    public String loginFailed() {
-//        return "user/loginFailed";
-//    }
-//
-//    @GetMapping("/logout")
-//    public String logout(HttpSession session) {
-//        if (session != null) {
-//            session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
-//        }
-//        return "redirect:/";
-//    }
+
+
+    @GetMapping("/updateForm")
+    public String showUpdateForm(@RequestParam String userId,
+                                 HttpSession session,
+                                 Model model) {
+        User sessionUser = UserSessionUtils.getUserFromSession(session);
+        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
+            return "redirect:/";
+        }
+        return userService.findByUserId(userId)
+                .map(user -> {
+                    model.addAttribute("user", user);
+                    return "user/updateForm";
+                })
+                .orElse("redirect:/");
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@RequestParam String userId,
+                             @RequestParam String password,
+                             @RequestParam String name,
+                             @RequestParam String email,
+                             HttpSession session) {
+        User sessionUser = UserSessionUtils.getUserFromSession(session);
+        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
+            return "redirect:/";
+        }
+        User persistedUser = userService.updateUser(new User(userId, password, name, email));
+        session.setAttribute(UserSessionUtils.USER_SESSION_KEY, persistedUser);
+        return "redirect:/user/list";
+    }
+
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "user/login";
+    }
+
+    @GetMapping("/loginFailed")
+    public String loginFailed() {
+        return "user/loginFailed";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String userId,
+                        @RequestParam String password,
+                        HttpSession session) {
+        return userService.authenticate(userId, password)
+                .map(user -> {
+                    session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
+                    return "redirect:/";
+                })
+                .orElse("redirect:/user/loginFailed");
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        if (session != null) {
+            session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
+        }
+        return "redirect:/";
+    }
 }

@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 	private final QuestionService questionService;
+
 	@GetMapping("/")
 	public String home(Model model) {
 		model.addAttribute("questions", questionService.findAll());
 		return "home";
 	}
+//	private final QuestionService questionService;
+//	@GetMapping("/")
+//	public String home(Model model) {
+//		model.addAttribute("questions", questionService.findAll());
+//		return "home";
+//	}
 }

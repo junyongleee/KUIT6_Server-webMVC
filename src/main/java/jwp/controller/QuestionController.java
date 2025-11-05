@@ -22,7 +22,7 @@ public class QuestionController {
     @GetMapping("/form")
     public String showForm(HttpSession session) {
         if (UserSessionUtils.isLogined(session)) {
-            return "qna/form.jsp";
+            return "qna/form";
         }
         return "redirect:/user/loginForm";
     }
