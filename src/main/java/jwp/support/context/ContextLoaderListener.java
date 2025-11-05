@@ -1,30 +1,27 @@
-package jwp.support.context;
-
-import core.jdbc.ConnectionManager;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-import java.util.logging.Logger;
-
-@WebListener
-public class ContextLoaderListener implements ServletContextListener {
-    private static final Logger logger = Logger.getLogger(ContextLoaderListener.class.getName());
-
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("jwp.sql"));
-        ConnectionManager.getDataSource();
-        DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
-
-        logger.info("Completed Load ServletContext!");
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
-}
+//package jwp.controller;
+//
+//import jwp.service.UserService;
+//import jwp.support.session.UserSessionUtils;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//
+//import javax.servlet.http.HttpSession;
+//
+//@Controller
+//@RequestMapping("/user")
+//@RequiredArgsConstructor
+//public class UserController {
+//    private final UserService userService;
+//
+//    @GetMapping("/list")
+//    public String listUsers(HttpSession session, Model model) {
+//        if (!UserSessionUtils.isLogined(session)) {
+//            return "redirect:/user/loginForm";
+//        }
+//        model.addAttribute("users", userService.findAllUsers());
+//        return "user/list";
+//    }
+//}

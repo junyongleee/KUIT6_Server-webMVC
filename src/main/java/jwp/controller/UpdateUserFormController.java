@@ -1,81 +1,34 @@
 package jwp.controller;
 
-import core.db.MemoryUserRepository;
-import jwp.dao.UserDao;
 import jwp.model.User;
+import jwp.service.UserService;
+import jwp.support.session.UserSessionUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.sql.SQLException;
 
-//@WebServlet("/user/updateForm")
-public class UpdateUserFormController implements Controller {
-    private static final String USER_SESSION_KEY = "user";
-//    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
-    private final UserDao userDao = new UserDao();
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!"GET".equalsIgnoreCase(req.getMethod())) {
-            return "redirect:/";
-        }
+@Controller
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class UpdateUserFormController {
+    private final UserService userService;
 
-        String userId = req.getParameter("userId");
-        HttpSession session = req.getSession(false);
-        if (session == null) {
-            return "redirect:/";
-        }
-
-        User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
+    @GetMapping("/updateForm")
+    public String showUpdateForm(@RequestParam String userId, HttpSession session, Model model) {
+        User sessionUser = UserSessionUtils.getUserFromSession(session);
         if (sessionUser == null || !sessionUser.isSameUser(userId)) {
             return "redirect:/";
         }
-
-        User user = null;
-        try {
-            user = userDao.findByUserId(userId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (user == null) {
-            return "redirect:/";
-        }
-
-        req.setAttribute("user", user);
-        return "/user/updateForm.jsp";
+        return userService.findByUserId(userId)
+                .map(user -> {
+                    model.addAttribute("user", user);
+                    return "user/updateForm";
+                })
+                .orElse("redirect:/");
     }
 }
-
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String userId = req.getParameter("userId");
-//
-//        HttpSession session = req.getSession(false);
-//        if (session == null) {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//            return;
-//        }
-//
-//        User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-//        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//            return;
-//        }
-//
-//        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
-//        User user = userRepository.findUserById(userId);
-//        if (user == null) {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//            return;
-//        }
-//
-//        req.setAttribute("user", user);
-//        RequestDispatcher rd = req.getRequestDispatcher("/user/updateForm.jsp");
-//        rd.forward(req, resp);
-//    }
-//}

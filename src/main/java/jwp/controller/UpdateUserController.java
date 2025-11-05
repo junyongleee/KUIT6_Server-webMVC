@@ -1,80 +1,30 @@
 package jwp.controller;
 
-//import core.db.MemoryUserRepository;
-import jwp.dao.UserDao;
 import jwp.model.User;
+import jwp.service.UserService;
+import jwp.support.session.UserSessionUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.sql.SQLException;
 
-public class UpdateUserController implements Controller {
-    private static final String USER_SESSION_KEY = "user";
-//    private static final MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
-    private final UserDao userDao = new UserDao();
 
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        if (!"POST".equalsIgnoreCase(req.getMethod())) {
+@Controller
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class UpdateUserController {
+    private final UserService userService;
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User updateUser, HttpSession session) {
+        User sessionUser = UserSessionUtils.getUserFromSession(session);
+        if (sessionUser == null || !sessionUser.isSameUser(updateUser.getUserId())) {
             return "redirect:/";
         }
-
-        HttpSession session = req.getSession(false);
-        if (session == null) {
-            return "redirect:/";
-        }
-
-        User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-        String userId = req.getParameter("userId");
-        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-            return "redirect:/";
-        }
-
-        String password = req.getParameter("password");
-        String name = req.getParameter("name");
-        String email = req.getParameter("email");
-
-        User updateUser = new User(userId, password, name, email);
-        userDao.update(updateUser);
-
-        session.setAttribute(USER_SESSION_KEY, updateUser);
+        User persistedUser = userService.updateUser(updateUser);
+        session.setAttribute(UserSessionUtils.USER_SESSION_KEY, persistedUser);
         return "redirect:/user/list";
     }
 }
-
-//@WebServlet("/user/update")
-//public class UpdateUserController extends HttpServlet {
-//    private static final String USER_SESSION_KEY = "user";
-//
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession session = req.getSession(false);
-//        if (session == null) {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//            return;
-//        }
-//
-//        User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-//        String userId = req.getParameter("userId");
-//        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//            return;
-//        }
-//
-//        String password = req.getParameter("password");
-//        String name = req.getParameter("name");
-//        String email = req.getParameter("email");
-//
-//        User updateUser = new User(userId, password, name, email);
-//        MemoryUserRepository userRepository = MemoryUserRepository.getInstance();
-//        userRepository.changeUserInfo(updateUser);
-//
-//        session.setAttribute(USER_SESSION_KEY, updateUser);
-//        resp.sendRedirect(req.getContextPath() + "/user/list");
-//    }
-//}

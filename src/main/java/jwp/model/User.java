@@ -1,5 +1,6 @@
 package jwp.model;
 
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     private String userId;

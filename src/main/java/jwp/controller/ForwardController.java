@@ -1,19 +1,23 @@
 package jwp.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-public class ForwardController implements Controller {
-    private final String viewName;
-
-    public ForwardController(String viewName) {
-        this.viewName = viewName;
+@Controller
+public class ForwardController  {
+//    private final String viewName;
+    @GetMapping("/user/loginForm")
+    public String loginForm() {
+        return "user/login";
     }
 
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return viewName;
+    @GetMapping("/user/loginFailed")
+    public String loginFailed() {
+        return "user/loginFailed";
+    }
+
+    @GetMapping("/user/form")
+    public String signUpForm() {
+        return "user/form";
     }
 }

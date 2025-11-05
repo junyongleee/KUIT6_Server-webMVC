@@ -1,9 +1,15 @@
 package jwp.controller;
 
-import jwp.dao.QuestionDao;
+
 import jwp.model.Question;
 import jwp.model.User;
+import jwp.service.QuestionService;
 import jwp.support.session.UserSessionUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,27 +18,20 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class CreateQuestionController implements Controller {
-    private final QuestionDao questionDao = new QuestionDao();
-
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        if (!"POST".equalsIgnoreCase(req.getMethod())) {
-            return "redirect:/qna/form";
-        }
-
-        HttpSession session = req.getSession(false);
-        if (!UserSessionUtils.isLogined(session)) {
+@Controller
+@RequestMapping("/qna")
+@RequiredArgsConstructor
+public class CreateQuestionController{
+    private final QuestionService questionService;
+    @PostMapping("/create")
+    public String createQuestion(@RequestParam String title,
+                                 @RequestParam String contents,
+                                 HttpSession session) {
+        User user = UserSessionUtils.getUserFromSession(session);
+        if (user == null) {
             return "redirect:/user/loginForm";
         }
-
-        User user = UserSessionUtils.getUserFromSession(session);
-        String title = req.getParameter("title");
-        String contents = req.getParameter("contents");
-
-        Question newQuestion = new Question(null, user.getUserId(), title, contents, null, 0);
-        questionDao.insert(newQuestion);
-
+        questionService.createQuestion(user.getUserId(), title, contents);
         return "redirect:/";
     }
 }
