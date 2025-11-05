@@ -45,59 +45,59 @@ public class UserController {
         model.addAttribute("users", userService.findAllUsers());
         return "user/list.jsp";
     }
-
-    @GetMapping("/updateForm")
-    public String showUpdateForm(@RequestParam String userId, HttpSession session, Model model) {
-        User sessionUser = UserSessionUtils.getUserFromSession(session);
-        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
-            return "redirect:/";
-        }
-        return userService.findByUserId(userId)
-                .map(user -> {
-                    model.addAttribute("user", user);
-                    return "user/updateForm";
-                })
-                .orElse("redirect:/");
-    }
-
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute User updateUser, HttpSession session) {
-        User sessionUser = UserSessionUtils.getUserFromSession(session);
-        if (sessionUser == null || !sessionUser.isSameUser(updateUser.getUserId())) {
-            return "redirect:/";
-        }
-        User persistedUser = userService.updateUser(updateUser);
-        session.setAttribute(UserSessionUtils.USER_SESSION_KEY, persistedUser);
-        return "redirect:/user/list";
-    }
-
-    @GetMapping("/loginForm")
-    public String loginForm() {
-        return "user/login";
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestParam String userId,
-                        @RequestParam String password,
-                        HttpSession session) {
-        return userService.authenticate(userId, password)
-                .map(user -> {
-                    session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
-                    return "redirect:/";
-                })
-                .orElse("redirect:/user/loginFailed");
-    }
-
-    @GetMapping("/loginFailed")
-    public String loginFailed() {
-        return "user/loginFailed";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        if (session != null) {
-            session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
-        }
-        return "redirect:/";
-    }
+//
+//    @GetMapping("/updateForm")
+//    public String showUpdateForm(@RequestParam String userId, HttpSession session, Model model) {
+//        User sessionUser = UserSessionUtils.getUserFromSession(session);
+//        if (sessionUser == null || !sessionUser.isSameUser(userId)) {
+//            return "redirect:/";
+//        }
+//        return userService.findByUserId(userId)
+//                .map(user -> {
+//                    model.addAttribute("user", user);
+//                    return "user/updateForm";
+//                })
+//                .orElse("redirect:/");
+//    }
+//
+//    @PostMapping("/update")
+//    public String updateUser(@ModelAttribute User updateUser, HttpSession session) {
+//        User sessionUser = UserSessionUtils.getUserFromSession(session);
+//        if (sessionUser == null || !sessionUser.isSameUser(updateUser.getUserId())) {
+//            return "redirect:/";
+//        }
+//        User persistedUser = userService.updateUser(updateUser);
+//        session.setAttribute(UserSessionUtils.USER_SESSION_KEY, persistedUser);
+//        return "redirect:/user/list";
+//    }
+//
+//    @GetMapping("/loginForm")
+//    public String loginForm() {
+//        return "user/login";
+//    }
+//
+//    @PostMapping("/login")
+//    public String login(@RequestParam String userId,
+//                        @RequestParam String password,
+//                        HttpSession session) {
+//        return userService.authenticate(userId, password)
+//                .map(user -> {
+//                    session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
+//                    return "redirect:/";
+//                })
+//                .orElse("redirect:/user/loginFailed");
+//    }
+//
+//    @GetMapping("/loginFailed")
+//    public String loginFailed() {
+//        return "user/loginFailed";
+//    }
+//
+//    @GetMapping("/logout")
+//    public String logout(HttpSession session) {
+//        if (session != null) {
+//            session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
+//        }
+//        return "redirect:/";
+//    }
 }
