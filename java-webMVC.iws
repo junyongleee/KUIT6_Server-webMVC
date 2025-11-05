@@ -5,35 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8532e5e-d8f5-4e8c-a002-746704734daf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/jwp/repository/QuestionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/jwp/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/jwp/service/QuestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/jwp/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-webMVC.iws" beforeDir="false" afterPath="$PROJECT_DIR$/java-webMVC.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/jdbc/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/jdbc/ConnectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/jdbc/KeyHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/jdbc/KeyHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/jdbc/PreparedStatementSetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/jdbc/PreparedStatementSetter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/jdbc/RowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/jdbc/RowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateQuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateQuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateQuestionFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateQuestionFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/CreateUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/DispatcherServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/DispatcherServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/ForwardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/ForwardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/ListUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/ListUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/LogoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/LogoutController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/RequestMapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/RequestMapping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/ShowQuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/ShowQuestionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/UpdateUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/UpdateUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/UpdateUserFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/UpdateUserFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jwp/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/dao/QuestionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/dao/QuestionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/model/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/model/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jwp/support/context/ContextLoaderListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jwp/support/context/ContextLoaderListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +311,7 @@
       <workItem from="1761813440661" duration="22235000" />
       <workItem from="1761983761744" duration="329000" />
       <workItem from="1762087694007" duration="8947000" />
-      <workItem from="1762319002804" duration="10575000" />
+      <workItem from="1762319002804" duration="11409000" />
     </task>
     <servers />
   </component>
